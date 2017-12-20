@@ -5,7 +5,7 @@ from datetime import datetime
 import values
 
 migrations = []
-auth = ('ant6190', values.key)
+auth = ('ant6190', values.KEY)
 GIT_URL = 'https://api.github.com/repos'
 
 COMMENT_INFO = {
