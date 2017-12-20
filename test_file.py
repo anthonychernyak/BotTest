@@ -1,5 +1,5 @@
 revision = '123'
 down_revision = '345'
 
-print("AND MY AXE")
+print("Hello World It's a me Mario")
 
