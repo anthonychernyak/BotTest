@@ -1,13 +1,14 @@
 import requests
 import threading
+import json
 
 migrations = []
 auth = ('ant6190', 'temp')
 
-COMMENT_INFO = {
+COMMENT_INFO = json.dumps({
   "body": "Hey, your Migration is out of date! You should fix that",
-  "event": "REQUEST_CHANGES",
-}
+  "event": "COMMENT",
+})
 
 
 def send_comments(merged_migrations):
