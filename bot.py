@@ -1,14 +1,22 @@
 import requests
 import threading
 import json
+import datetime
 
 migrations = []
 auth = ('ant6190', 'temp')
 
-COMMENT_INFO = json.dumps({
-  "body": "Hey, your Migration is out of date! You should fix that",
+COMMENT_INFO = {
+  "body": "Hey, your Migration is out of date! You should fix that.\n Fix it with Tyler's Script: https://gist.github.com/CNBorn/7c312744b34c9b6e9b853382fe93385f\nThe last migration to integration happened at {0}",
   "event": "COMMENT",
-})
+}
+
+
+def check_review_status(migration, time):
+    COMMENT_INFO['body'] = COMMENT_INFO['body'].format(time)
+    requests.post(
+        'https://api.github.com/repos/ant6190/BotTest/pulls/{0}/reviews'.format(
+            migration), auth=auth, data=json.dumps(COMMENT_INFO))
 
 
 def send_comments(merged_migrations):
@@ -17,9 +25,7 @@ def send_comments(merged_migrations):
     for merged_migration in merged_migrations:
         migrations.remove(merged_migration)
         for migration in migrations:
-            requests.post(
-                'https://api.github.com/repos/ant6190/BotTest/pulls/{0}/reviews'.format(
-                    migration), auth=auth, data=COMMENT_INFO)
+            check_review_status(migration, str(datetime.datetime.now().time()))
 
 
 def main():
